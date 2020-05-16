@@ -9,9 +9,10 @@ import java.sql.Statement;
 
 public class Banco {
 
-	private static final String DRIVER = "com.mysql.jdbc.Driver";
+	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	private static final String BANCODADOS = "dbsistemaavisos";
-	private static final String CONEXAO = "jdbc:mysql://localhost:3306/" + BANCODADOS;
+	private static final String CONEXAO = "jdbc:mysql://localhost:3306/" + BANCODADOS 
+		+ "?useTimezone=true&serverTimezone=UTC&useSSL=false";
 	private static final String USER = "root";
 	private static final String PASSWORD = "";
 	
@@ -75,6 +76,16 @@ public class Banco {
 			return null;
 		}
 	}
+	
+	public static PreparedStatement getPreparedStatement(Connection conn, String sql, int tipoRetorno) {
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql, tipoRetorno);
+			return stmt;
+		} catch (Exception e) {
+			System.out.println("Erro ao obter o PreparedStatement.");
+			return null;
+		}
+	}
 
 	public static void closePreparedStatement(Statement stmt){
 		try {
@@ -98,8 +109,3 @@ public class Banco {
 		}
 	}
 }
-
-
-
-
-
